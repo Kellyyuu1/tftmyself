@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TFT 自訂攻略網站</title>
+  <title>自訂戰棋攻略網站</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -11,248 +12,293 @@
 
     body {
       margin: 0;
-      background: #0b0f14;
+      background: #080b10;
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: Arial, "Microsoft JhengHei", sans-serif;
     }
 
     .app {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
 
-    .top-area {
+    .header {
+      height: 70px;
       display: flex;
-      gap: 20px;
-      padding: 20px;
+      align-items: center;
+      padding: 0 28px;
+      border-bottom: 1px solid #232a33;
+      background: #090d12;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ffc928;
+    }
+
+    .main {
       flex: 1;
-    }
-
-    /* 左側特性欄 */
-    .traits-panel {
-      width: 280px;
-      background: #111823;
-      border: 1px solid #2a3442;
-      border-radius: 20px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 18px;
       padding: 20px;
     }
 
-    .traits-panel h2 {
-      margin-top: 0;
-      font-size: 24px;
-      margin-bottom: 20px;
+    .traits-panel,
+    .board-panel,
+    .units-panel {
+      background: #0d1118;
+      border: 1px solid #303843;
+      border-radius: 22px;
+    }
+
+    .traits-panel {
+      padding: 20px;
+    }
+
+    .panel-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 18px;
     }
 
     .trait-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #1a2330;
-      border: 1px solid #2d3a4b;
-      border-radius: 14px;
-      padding: 12px 14px;
+      padding: 12px;
       margin-bottom: 12px;
-    }
-
-    .trait-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .trait-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: #2c3747;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
+      background: #151b24;
+      border: 1px solid #2f3845;
+      border-radius: 14px;
     }
 
     .trait-name {
+      font-weight: 800;
       font-size: 16px;
-      font-weight: bold;
+    }
+
+    .trait-detail {
+      font-size: 12px;
+      color: #9da8b5;
+      margin-top: 4px;
     }
 
     .trait-count {
-      min-width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: #f2c94c;
-      color: #111;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #ffc928;
+      color: #101010;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+      font-weight: 900;
     }
 
-    /* 右側棋盤區 */
     .board-panel {
-      flex: 1;
-      background: #0d131c;
-      border: 1px solid #2a3442;
-      border-radius: 24px;
-      padding: 24px;
-      overflow: auto;
-    }
-
-    .board-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
+      padding: 22px;
+      overflow-x: auto;
     }
 
     .board {
+      min-width: 850px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      min-width: 850px;
+      gap: 10px;
+      align-items: center;
+      padding-top: 20px;
     }
 
     .board-row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
     }
 
     .board-row.offset {
-      margin-left: 52px;
+      margin-left: 58px;
     }
 
-    /* 六角格 */
     .hex {
-      width: 96px;
-      height: 110px;
-      background: #131b26;
-      position: relative;
+      width: 105px;
+      height: 118px;
+      background: #0a0f15;
       clip-path: polygon(
-        25% 6%,
-        75% 6%,
+        25% 5%,
+        75% 5%,
         100% 50%,
-        75% 94%,
-        25% 94%,
+        75% 95%,
+        25% 95%,
         0% 50%
       );
-      border: 2px solid #2d3746;
+      border: 4px solid #222831;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-weight: bold;
       text-align: center;
       padding: 10px;
-      transition: 0.2s;
+      font-weight: 900;
+      font-size: 15px;
+      color: #fff;
+      transition: 0.15s;
     }
 
     .hex:hover {
-      border-color: #f2c94c;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      border-color: #ffc928;
     }
 
     .hex.filled {
-      background: #1e2f45;
-      border-color: #4da3ff;
+      background: #182334;
     }
 
-    /* 下方棋子區 */
     .units-panel {
-      padding: 20px;
-      border-top: 1px solid #222c38;
-      background: #0f151e;
+      margin: 0 20px 20px;
+      padding: 18px;
     }
 
-    .units-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 16px;
+    .units-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .selected-text {
+      color: #ffc928;
+      font-weight: 800;
     }
 
     .units-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
     }
 
     .unit-card {
-      width: 140px;
-      background: #17202b;
-      border: 1px solid #2e3948;
-      border-radius: 16px;
-      padding: 12px;
+      width: 170px;
+      min-height: 110px;
+      background: #141b25;
+      border: 3px solid #444;
+      border-radius: 18px;
+      padding: 14px;
       cursor: pointer;
-      transition: 0.2s;
+      transition: 0.15s;
     }
 
     .unit-card:hover {
       transform: translateY(-3px);
-      border-color: #f2c94c;
+      background: #1a2330;
+    }
+
+    .unit-card.selected {
+      box-shadow: 0 0 0 3px #ffc928;
     }
 
     .unit-name {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .unit-cost {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: #ffc928;
+      color: #111;
+      font-size: 13px;
+      font-weight: 900;
       margin-bottom: 8px;
     }
 
     .unit-traits {
+      color: #c4ccd6;
       font-size: 14px;
-      color: #c8d2dc;
       line-height: 1.5;
     }
 
-    .selected-unit {
-      margin-top: 12px;
-      color: #f2c94c;
-      font-size: 16px;
-      font-weight: bold;
+    .cost-1 {
+      border-color: #9ca3af;
     }
 
-    @media (max-width: 1100px) {
-      .top-area {
-        flex-direction: column;
-      }
+    .cost-2 {
+      border-color: #22c55e;
+    }
 
-      .traits-panel {
-        width: 100%;
+    .cost-3 {
+      border-color: #3b82f6;
+    }
+
+    .cost-4 {
+      border-color: #a855f7;
+    }
+
+    .cost-5 {
+      border-color: #facc15;
+    }
+
+    .empty-text {
+      color: #9da8b5;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1000px) {
+      .main {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="app">
-    <div class="top-area">
-      <!-- 左邊特性 -->
-      <div class="traits-panel">
-        <h2>特性</h2>
+    <header class="header">
+      <div class="logo">自訂戰棋攻略</div>
+    </header>
+
+    <main class="main">
+      <section class="traits-panel">
+        <div class="panel-title">特性</div>
         <div id="traitsList"></div>
-      </div>
+      </section>
 
-      <!-- 右邊棋盤 -->
-      <div class="board-panel">
-        <div class="board-title">棋盤</div>
+      <section class="board-panel">
+        <div class="panel-title">棋盤</div>
         <div class="board" id="board"></div>
-      </div>
-    </div>
+      </section>
+    </main>
 
-    <!-- 下方棋子 -->
-    <div class="units-panel">
-      <div class="units-title">棋子</div>
+    <section class="units-panel">
+      <div class="units-header">
+        <div class="panel-title">棋子</div>
+        <div class="selected-text" id="selectedUnitText">目前未選擇棋子</div>
+      </div>
+
       <div class="units-list" id="unitsList"></div>
-      <div class="selected-unit" id="selectedUnitText">目前未選擇棋子</div>
-    </div>
+    </section>
   </div>
 
   <script>
     const units = [
-      { name: "陳沅寬", traits: ["秀明路", "缺愛","資科系"] },
-      { name: "余名卉", traits: ["秀明路", "王"] },
-      { name: "熊冠婷", traits: ["叛徒", "秀明路"] },
-      { name: "高育文", traits: ["秀明路", "資科系"] },
-      { name: "顏君穎", traits: ["秀明路", "資科系", "綠帽"] }
+      { name: "陳沅寬", cost: 5, traits: ["秀明路", "缺愛", "資科系"] },
+      { name: "余名卉", cost: 5, traits: ["秀明路", "王"] },
+      { name: "熊冠婷", cost: 3, traits: ["叛徒", "秀明路"] },
+      { name: "高育文", cost: 2, traits: ["秀明路", "資科系"] },
+      { name: "顏君穎", cost: 3, traits: ["秀明路", "資科系", "綠帽"] }
     ];
+
+    const traitDescriptions = {
+      "秀明路": "秀明路羈絆啟動。",
+      "缺愛": "需要更多關注。",
+      "資科系": "科技與邏輯能力提升。",
+      "王": "全場核心角色。",
+      "叛徒": "陣容不穩定因素。",
+      "綠帽": "特殊狀態羈絆。"
+    };
 
     let selectedUnit = null;
     let boardState = [];
@@ -262,28 +308,34 @@
     const traitsList = document.getElementById("traitsList");
     const selectedUnitText = document.getElementById("selectedUnitText");
 
-    // 建立下方棋子卡
     function renderUnits() {
       unitsList.innerHTML = "";
 
       units.forEach(unit => {
         const card = document.createElement("div");
-        card.className = "unit-card";
+        card.className = `unit-card cost-${unit.cost}`;
+
         card.innerHTML = `
           <div class="unit-name">${unit.name}</div>
+          <div class="unit-cost">${unit.cost} 費</div>
           <div class="unit-traits">${unit.traits.join(" / ")}</div>
         `;
 
         card.addEventListener("click", () => {
           selectedUnit = unit;
           selectedUnitText.textContent = `目前選擇棋子：${unit.name}`;
+
+          document.querySelectorAll(".unit-card").forEach(c => {
+            c.classList.remove("selected");
+          });
+
+          card.classList.add("selected");
         });
 
         unitsList.appendChild(card);
       });
     }
 
-    // 建立六角棋盤
     function renderBoard() {
       board.innerHTML = "";
       boardState = [];
@@ -310,13 +362,12 @@
 
             if (selectedUnit) {
               boardState[index] = selectedUnit;
-              updateBoard();
-              updateTraits();
             } else if (boardState[index]) {
               boardState[index] = null;
-              updateBoard();
-              updateTraits();
             }
+
+            updateBoard();
+            updateTraits();
           });
 
           row.appendChild(cell);
@@ -328,29 +379,31 @@
       updateBoard();
     }
 
-    // 更新棋盤畫面
     function updateBoard() {
       const cells = document.querySelectorAll(".hex");
 
       cells.forEach((cell, index) => {
         const unit = boardState[index];
 
+        cell.className = "hex";
+
         if (unit) {
           cell.textContent = unit.name;
-          cell.classList.add("filled");
+          cell.classList.add("filled", `cost-${unit.cost}`);
         } else {
           cell.textContent = "";
-          cell.classList.remove("filled");
         }
       });
     }
 
-    // 計算特性
     function updateTraits() {
       const traitCount = {};
+      const countedUnits = new Set();
 
       boardState.forEach(unit => {
-        if (unit) {
+        if (unit && !countedUnits.has(unit.name)) {
+          countedUnits.add(unit.name);
+
           unit.traits.forEach(trait => {
             traitCount[trait] = (traitCount[trait] || 0) + 1;
           });
@@ -362,20 +415,22 @@
       const traitNames = Object.keys(traitCount);
 
       if (traitNames.length === 0) {
-        traitsList.innerHTML = "<div style='color:#aaa;'>目前沒有已上場棋子</div>";
+        traitsList.innerHTML = `<div class="empty-text">目前沒有已上場棋子</div>`;
         return;
       }
 
       traitNames.forEach(trait => {
         const item = document.createElement("div");
         item.className = "trait-item";
+
         item.innerHTML = `
-          <div class="trait-left">
-            <div class="trait-icon">特</div>
+          <div>
             <div class="trait-name">${trait}</div>
+            <div class="trait-detail">${traitDescriptions[trait] || "尚未設定說明。"}</div>
           </div>
           <div class="trait-count">${traitCount[trait]}</div>
         `;
+
         traitsList.appendChild(item);
       });
     }
